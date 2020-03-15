@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript">
+        function checkTel(obj) {
+            obj.setCustomValidity("");
+            if(obj.validity.patternMismatch){
+                obj.setCustomValidity("格式有误，请输入11开头的11位手机号");
+            }
+        }
+    </script>
+</head>
+<body>
+
+
+<!--请添加手机号，邮箱，所属学院，入学成绩，入学日期，毕业时间-->
+        <form action="success.html" autocomplete="off">
+                <fieldset>
+                        <legend>学生档案</legend>
+
+                        <label for="username">学生姓名</label><input type="text" name="username" id="username" placeholder="请输入学生姓名（必填）" required >
+                        <label for="tel">手机号</label><input type="tel" name="tel" id="tel" oninvalid="checkTel(this)" required placeholder="请输入手机号码（必填）" pattern="1[0-9]{10}">
+                        <label for="email">邮箱</label><input type="email" name="email" id="email" placeholder="请输入电子邮箱地址">
+                        <label for="college">所属学院</label><input type="text" list="xueyuan" placeholder="请选择学院（必填）" name="college" id="college" required>
+                        <datalist id="xueyuan">
+                            <option value="软件学院"></option>
+                            <option value="大数据学院"></option>
+                            <option value="管理学院"></option>
+                            <option value="电子信息学院"></option>
+                            <option value="土木学院"></option>
+                        </datalist>
+                        <label for="core">入学成绩</label>
+                        <input type="number" placeholder="请输入入学成绩（必填）" required id="core" name="core" min="0" max="100">
+                        <label for="startDate">入学日期</label>
+                        <input type="date" id="startDate" name="startDate" required>
+                        <label for="endDate">毕业日期</label>
+                        <input type="date" id="endDate" name="endDate" required>
+
+                    <input type="submit" value="保存">
+                </fieldset>
+        </form>
+</body>
+</html>

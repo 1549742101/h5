@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第二次作业-表单</title>
+    <style>
+        body{
+            background: url("https://guilongkeji.com.cn/images/bg.jpg");
+        }
+        main{
+            text-align: center;
+            height: 520px;
+            color: #000;
+        }
+        footer,footer a{
+            text-align: center;
+            color: #CCCCCC;
+        }
+        label{
+            display: inline-block;
+            width: 100px;
+            height: 24px;
+        }
+        input{
+            margin-top: 10px;
+            width: 200px;
+            height: 24px;
+        }
+        main>form{
+            text-align: right;
+            margin:0 auto;
+            width: 400px;
+            height: 520px;
+        }
+        button{
+            margin-top: 10px;
+            width: 80px;
+            height: 40px;
+        }
+        button:hover{
+            border-color: #009DDA;
+            background: #009DDA;
+        }
+    </style>
+    <script>
+        window.onload=function () {
+            let username = document.getElementById("username");
+            let age = document.getElementById("age");
+            let date = document.getElementById("date");
+            let submit = document.getElementById("submit");
+            let star = document.getElementById("star");
+            let qq = document.getElementById("qq");
+            let idCard = document.getElementById("idCard");
+            let phone = document.getElementById("phone");
+            date.max = birthMax();
+            date.onclick=function () {
+                if (age.value){
+                    let y = birth(age.value);
+                    date.value = y+"-0"+1+"-0"+1;
+                    date.min =y+"-0"+1+"-0"+1;
+                    date.max =y+"-"+12+"-"+31;
+                }
+            }
+            age.onclick=function () {
+                if (date.value){
+                    age.value= getAge(date);
+                }
+            }
+            submit.onclick=function () {
+                username.setCustomValidity("");
+                age.setCustomValidity("");
+                idCard.setCustomValidity("");
+                qq.setCustomValidity("");
+                star.setCustomValidity("");
+                phone.setCustomValidity("");
+                if (username.validity.valueMissing){
+                    username.setCustomValidity("你想做无名氏麦，快设置名字");
+                }
+                if (age.validity.badInput||age.validity.valueMissing){
+                    age.setCustomValidity("学员年龄必须大于18小于70");
+                }
+                if (idCard.validity.patternMismatch||idCard.validity.valueMissing){
+                    idCard.setCustomValidity("你必须输入正确的身份证号");
+                }
+                if (qq.validity.valueMissing||qq.validity.patternMismatch){
+                    qq.setCustomValidity("QQ号5-11位数字，莫骗我，不是叫我");
+                }
+                if(star.validity.valueMissing){
+                    star.setCustomValidity("猜猜你是什么星座");
+                }
+                if (phone.validity.valueMissing||phone.validity.patternMismatch){
+                    phone.setCustomValidity("手机号要以1开头呀");
+                }
+            }
+        };
+        function getAge(date) {
+            date = date.value.split("-");
+            let  now = new Date();
+            let ny = now.getFullYear()-date[0];
+            let nm = now.getMonth()+1-date[1];
+            let nd = now.getDate()-date[2];
+            if (nm>0){
+                return ny;
+            }else if (nm===0){
+                return  nd>0?ny:ny-1;
+            }else {
+                return ny-1;
+            }
+        }
+        function birthMax() {
+            let date = new Date();
+            let y = date.getFullYear()-18;
+            let m = date.getMonth()+1;
+            let d = date.getDate();
+            if (m<10){
+                m="0"+m.toString();
+            }
+            if (d<10){
+                d="0"+d.toString();
+            }
+            return y+"-"+m+"-"+d;
+        }
+        function birth(age) {
+            let date = new Date();
+            return date.getFullYear()-age;
+        }
+    </script>
+</head>
+<body>
+<main>
+    <h4>学员信息登记表</h4>
+    <form action="https://guilongkeji.com.cn">
+        <label for="loginName">用户登录名：</label>
+        <input type="text" id="loginName" disabled value="guilongkeji@qq.com">
+        <br>
+        <label for="username">真实姓名：</label>
+        <input type="text" id="username" placeholder="请输入真实姓名" required>
+        <br>
+        <label for="age">真实年龄：</label>
+        <input type="number" id="age" min="18" max="70" placeholder="请输入真实年龄" required>
+        <br>
+        <label for="date">出生日期：</label>
+        <input type="date" id="date" required>
+        <br>
+        <label for="star">星座：</label>
+        <input type="text" id="star" list="stars" placeholder="请选择星座" required>
+        <datalist id="stars">
+            <option value="白羊座"></option>
+            <option value="金牛座"></option>
+            <option value="双子座"></option>
+            <option value="巨蟹座"></option>
+            <option value="狮子座"></option>
+            <option value="处女座"></option>
+            <option value="天秤座"></option>
+            <option value="天蝎座"></option>
+            <option value="射手座"></option>
+            <option value="摩羯座"></option>
+            <option value="水瓶座"></option>
+            <option value="双鱼座"></option>
+        </datalist>
+        <br>
+        <label for="email">电子邮箱：</label>
+        <input type="email" id="email" placeholder="请输入电子邮箱" required>
+        <br>
+        <label for="qq">QQ号码：</label>
+        <input type="text" id="qq" placeholder="请输入QQ号" required pattern="[0-9]{5-11}">
+        <br>
+        <label for="idCard">身份证号：</label>
+        <input type="text" id="idCard" placeholder="请输入身份证号" required  pattern="[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]">
+        <br>
+        <label for="phone">手机号码：</label>
+        <input type="tel" id="phone" placeholder="请输入手机号码" required pattern="1[0-9]{10}">
+        <br>
+        <label for="url">个人主页：</label>
+        <input type="url" id="url" placeholder="例：http://guilongkeji.com.cn" required>
+        <br>
+        <label for="color">幸运颜色：</label>
+        <input type="color" id="color" value="#fff000">
+        <br>
+        <button id="submit">
+            提交
+        </button>
+        <button type="reset">
+            重置
+        </button>
+    </form>
+</main>
+<footer>
+    <p>COPYRIGHT © 2019 XGL. ALL RIGHTS RESERVED. <a href="https://guilongkeji.com.cn">贵龙科技</a></p>
+    <p><a href="http://cq.beian.miit.gov.cn/publish/query/indexFirst.action">ICP网备：渝ICP备18014747号-2</a></p>
+    <p>QQ邮箱： 1549742101@QQ.COM</p>
+</footer>
+</body>
+</html>
